@@ -43,7 +43,7 @@ app.patch("/orders/:id", (req, res) => {
 app.delete("/orders/:id", (req, res) => {
   const { id } = req.params;
   Order.findByIdAndDelete({ _id: id })
-    .then(deletedOrder => res.status(200).send(deletedOrder))
+    .then(deletedOrder => res.status(204).send(deletedOrder))
     .catch(err => res.status(400).send(err));
 });
 
