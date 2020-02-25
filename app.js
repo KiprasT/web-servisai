@@ -10,20 +10,42 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-// define a simple route
-app.get("/", (req, res) => {
-  res.json({
-    message: "Welcome to Restaurant Orders application. Manage orders easily."
+app.post("/orders", (req, res) => {
+  console.log(req.body);
+  const order = new Order({
+    dishes: req.body.dish
   });
+  order
+    .save(order)
+    .then(savedOrder => res.status(201).send(savedOrder))
+    .catch(err => res.status(400).send(err));
 });
 
-// listen for requests
+app.get("/orders", (req, res) => {
+  Order.find()
+    .then(orders => res.status(200).send(orders))
+    .catch(err => res.status(400).send(err));
+});
+
+app.patch("/orders/:id", (req, res) => {
+  const { id } = req.params;
+  Order.findOneAndUpdate({ _id: id }, { served: true })
+    .then(changedOrder => res.status(200).send(changedOrder))
+    .catch(err => res.status(400).send(err));
+});
+
+app.delete("/orders/:id", (req, res) => {
+  const { id } = req.params;
+  Order.findByIdAndDelete({ _id: id })
+    .then(deletedOrder => res.status(200).send(deletedOrder))
+    .catch(err => res.status(400).send(err));
+});
 
 const mongoose = require("mongoose");
+const Order = require("./models/order.js").Order;
 const DB_URI = "mongodb://mongo:27017/ordersApp";
 
 mongoose.connect(DB_URI).then(() => {
-  app.listen(5000, () => {
-    console.log("Server is listening on port 5000");
-  });
+  console.log("APP IS RUNNING");
+  app.listen(5000);
 });
