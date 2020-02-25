@@ -11,7 +11,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.post("/orders", (req, res) => {
-  console.log(req.body);
   const order = new Order({
     dishes: req.body.dish
   });
@@ -23,6 +22,13 @@ app.post("/orders", (req, res) => {
 
 app.get("/orders", (req, res) => {
   Order.find()
+    .then(orders => res.status(200).send(orders))
+    .catch(err => res.status(400).send(err));
+});
+
+app.get("/orders/:id", (req, res) => {
+  const { id } = req.params;
+  Order.find({ _id: id })
     .then(orders => res.status(200).send(orders))
     .catch(err => res.status(400).send(err));
 });

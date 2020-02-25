@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "0fd93ed9-22d1-49ce-bf25-9aec0eac7fd3",
+		"name": "Web Servisai ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:5000/orders",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Get all orders"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders/5e553abe925c976f75306858",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/orders/5e553f78e434013c6e3d70a5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders",
+						"5e553f78e434013c6e3d70a5"
+					]
+				},
+				"description": "Change order status to served"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\"dish\": \"Chicken\"}"
+				},
+				"url": {
+					"raw": "http://localhost:5000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Add new order"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders/5e553e0c0dd33f4932e74b9d",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/orders/5e553e0c0dd33f4932e74b9d",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders",
+						"5e553e0c0dd33f4932e74b9d"
+					]
+				},
+				"description": "Delete a dish"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders/5e553abe925c976f75306858",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/orders/5e553abe925c976f75306858",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders",
+						"5e553abe925c976f75306858"
+					]
+				},
+				"description": "Get a single order"
+			},
+			"response": []
+		}
+	]
+}
