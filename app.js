@@ -16,7 +16,11 @@ app.post("/orders", (req, res) => {
   });
   order
     .save(order)
-    .then(savedOrder => res.status(201).send(savedOrder))
+    .then(savedOrder =>
+      res
+        .status(201)
+        .json({ location: "http://localhost:5000/orders/" + savedOrder._id })
+    )
     .catch(err => res.status(400).send(err));
 });
 
