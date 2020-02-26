@@ -10,45 +10,118 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
-app.post("/orders", (req, res) => {
-  const order = new Order({
-    dishes: req.body.dish
-  });
-  order
-    .save(order)
-    .then(savedOrder =>
-      res
-        .status(201)
-        .json({ location: "http://localhost:5000/orders/" + savedOrder._id })
-    )
-    .catch(err => res.status(400).send(err));
+app.post("/orders", async (req, res) => {
+  try {
+    const order = await new Order({
+      dishes: req.body.dish
+    }).exec();
+    if (!order) {
+      res.status(404).send();
+    } else {
+      res.status(201).send(order);
+    }
+  } catch (exception) {
+    console.log(exception);
+    if (exception.name == "CastError") {
+      res.status(400).send("Bad request");
+    }
+    res.status(500).send("An error occured our side!");
+  }
 });
 
-app.get("/orders", (req, res) => {
-  Order.find()
-    .then(orders => res.status(200).send(orders))
-    .catch(err => res.status(400).send(err));
+app.get("/orders", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.find().exec();
+    if (!order) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(order);
+    }
+  } catch (exception) {
+    console.log(exception);
+    if (exception.name == "CastError") {
+      res.status(400).send("Bad request");
+    }
+    res.status(500).send("An error occured our side!");
+  }
 });
 
-app.get("/orders/:id", (req, res) => {
-  const { id } = req.params;
-  Order.find({ _id: id })
-    .then(orders => res.status(200).send(orders))
-    .catch(err => res.status(400).send(err));
+app.get("/orders/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findOne({ _id: id }).exec();
+    if (!order) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(order);
+    }
+  } catch (exception) {
+    console.log(exception);
+    if (exception.name == "CastError") {
+      res.status(400).send("Bad request");
+    }
+    res.status(500).send("An error occured our side!");
+  }
 });
 
-app.patch("/orders/:id", (req, res) => {
-  const { id } = req.params;
-  Order.findOneAndUpdate({ _id: id }, { served: true })
-    .then(changedOrder => res.status(200).send(changedOrder))
-    .catch(err => res.status(400).send(err));
+app.patch("/orders/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findOneAndUpdate(
+      { _id: id },
+      { served: true },
+      { new: true }
+    ).exec();
+    if (!order) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(order);
+    }
+  } catch (exception) {
+    console.log(exception);
+    if (exception.name == "CastError") {
+      res.status(400).send("Bad request");
+    }
+    res.status(500).send("An error occured our side!");
+  }
 });
 
-app.delete("/orders/:id", (req, res) => {
-  const { id } = req.params;
-  Order.findByIdAndDelete({ _id: id })
-    .then(deletedOrder => res.status(204).send(deletedOrder))
-    .catch(err => res.status(400).send(err));
+app.put("/orders", async (req, res) => {
+  try {
+    const order = await Order.findByIdAndUpdate(req.body._id, req.body, {
+      new: true
+    }).exec();
+    if (!order) {
+      res.status(404).send();
+    } else {
+      res.status(200).send(order);
+    }
+  } catch (exception) {
+    console.log(exception);
+    if (exception.name == "CastError") {
+      res.status(400).send("Bad request");
+    }
+    res.status(500).send("An error occured our side!");
+  }
+});
+
+app.delete("/orders/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findByIdAndDelete({ _id: id }).exec();
+    if (!order) {
+      res.status(404).send();
+    } else {
+      res.status(204).send(order);
+    }
+  } catch (exception) {
+    console.log(exception);
+    if (exception.name == "CastError") {
+      res.status(400).send("Bad request");
+    }
+    res.status(500).send("An error occured our side!");
+  }
 });
 
 const mongoose = require("mongoose");
