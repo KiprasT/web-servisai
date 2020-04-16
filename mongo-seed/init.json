@@ -3,6 +3,7 @@
     "served": true,
     "_id": "5e553f78e434013c6e3d70a5",
     "dishes": "Chicken",
+    "user_id": "1",
     "created_at": "2020-02-25T15:38:32.289Z",
     "updated_at": "2020-02-25T15:38:32.291Z",
     "__v": 0
@@ -11,6 +12,7 @@
     "served": false,
     "_id": "5e563a8dd6af930b79d8deaf",
     "dishes": "Soup",
+    "user_id": "2",
     "created_at": "2020-02-26T09:29:49.642Z",
     "updated_at": "2020-02-26T09:29:49.643Z",
     "__v": 0
@@ -19,6 +21,7 @@
     "served": true,
     "_id": "5e564a7c38a6addc90a12f6c",
     "dishes": "Soup",
+    "user_id": "3",
     "created_at": "2020-02-26T10:37:48.862Z",
     "updated_at": "2020-02-26T10:37:48.862Z",
     "__v": 0

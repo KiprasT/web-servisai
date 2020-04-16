@@ -13,7 +13,7 @@ app.use(bodyParser.json());
 app.post("/orders", async (req, res) => {
   try {
     const order = await new Order({
-      dishes: req.body.dish
+      dishes: req.body.dish,
     }).exec();
     if (!order) {
       res.status(404).send();
@@ -90,7 +90,7 @@ app.patch("/orders/:id", async (req, res) => {
 app.put("/orders", async (req, res) => {
   try {
     const order = await Order.findByIdAndUpdate(req.body._id, req.body, {
-      new: true
+      new: true,
     }).exec();
     if (!order) {
       res.status(404).send();
@@ -122,6 +122,23 @@ app.delete("/orders/:id", async (req, res) => {
     }
     res.status(500).send("An error occured our side!");
   }
+});
+
+app.get("/test", async (req, res) => {
+  const rp = require("request-promise");
+  var options = {
+    method: "GET",
+    uri: "http://contacts:5000/contacts",
+    json: true, // Automatically parses the JSON string in the response
+  };
+
+  rp(options)
+    .then(function (data) {
+      res.status(200).send(data);
+    })
+    .catch(function (err) {
+      res.status(500).send(err);
+    });
 });
 
 const mongoose = require("mongoose");

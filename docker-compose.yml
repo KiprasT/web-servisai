@@ -1,9 +1,9 @@
 version: "3"
+
+networks:
+  mynetwork:
+
 services:
-  mongo-seed:
-    build: ./mongo-seed
-    links:
-      - mongo
   web:
     image: docker-node-mongo
     build: .
@@ -12,5 +12,18 @@ services:
       - "5000:5000"
     depends_on:
       - "mongo"
+      - "contacts"
+    networks:
+      - mynetwork
+  contacts:
+    build:
+      context: contacts
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5000"
+    networks:
+      - mynetwork
   mongo:
     image: "mongo"
+    networks:
+      - mynetwork
