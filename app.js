@@ -12,13 +12,87 @@ app.use(bodyParser.json());
 
 app.post("/orders", async (req, res) => {
   try {
-    const order = await new Order({
-      dishes: req.body.dish,
-    }).exec();
-    if (!order) {
-      res.status(404).send();
+    if (
+      req.body.name != null &&
+      req.body.surname != null &&
+      req.body.number != null &&
+      req.body.email != null
+    ) {
+      const rp = require("request-promise");
+      var options = {
+        method: "POST",
+        uri: "http://contacts:5000/contacts",
+        json: true, // Automatically parses the JSON string in the response
+        body: {
+          id: Math.floor(Math.random() * Math.floor(100000)),
+          surname: req.body.surname,
+          name: req.body.name,
+          number: req.body.number,
+          email: req.body.email,
+        },
+      };
+
+      rp(options)
+        .then(async function (data) {
+          try {
+            const order = await new Order({
+              dishes: req.body.dish,
+              user: options.body.id,
+            }).save();
+            if (!order) {
+              res.status(404).send();
+            } else {
+              res.status(201).send(order);
+            }
+          } catch (exception) {
+            console.log(exception);
+            res.status(500).send();
+          }
+        })
+        .catch(async function (err) {
+          try {
+            const order = await new Order({
+              dishes: req.body.dish,
+            }).save();
+            if (!order) {
+              res.status(404).send();
+            } else {
+              res.status(201).send(order);
+            }
+          } catch (exception) {
+            console.log(exception);
+            res.status(500).send();
+          }
+        });
+    } else if (req.body.user != null) {
+      try {
+        const order = await new Order({
+          dishes: req.body.dish,
+          user: req.body.user,
+        }).save();
+        if (!order) {
+          res.status(404).send();
+        } else {
+          res.status(201).send(order);
+        }
+      } catch (exception) {
+        console.log(exception);
+        res.status(500).send();
+      }
     } else {
-      res.status(201).send(order);
+      try {
+        const order = await new Order({
+          dishes: req.body.dish,
+        }).save();
+        if (!order) {
+          res.status(404).send();
+        } else {
+          res.status(201).send(order);
+        }
+      } catch (exception) {
+        console.log(exception);
+        res.status(500).send();
+      }
     }
   } catch (exception) {
     console.log(exception);
@@ -54,7 +128,26 @@ app.get("/orders/:id", async (req, res) => {
     if (!order) {
       res.status(404).send();
     } else {
-      res.status(200).send(order);
+      //res.status(200).send(order);
+      if (order.user != null) {
+        const rp = require("request-promise");
+        var options = {
+          method: "GET",
+          uri: "http://contacts:5000/contacts/" + order.user,
+        };
+
+        rp(options)
+          .then(async function (data) {
+            data = JSON.parse(data);
+            res.status(200).send({ order: order, contacts: data });
+          })
+          .catch(async function (err) {
+            order.user = err;
+            res.status(200).send(order);
+          });
+      } else {
+        res.status(200).send(order);
+      }
     }
   } catch (exception) {
     console.log(exception);

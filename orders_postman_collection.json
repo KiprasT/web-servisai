@@ -26,12 +26,12 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:5000/orders/5e553abe925c976f75306858",
+			"name": "http://localhost:5000/orders/_id",
 			"request": {
-				"method": "PATCH",
+				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/orders/5e553f78e434013c6e3d70a5",
+					"raw": "http://localhost:5000/orders/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -39,7 +39,28 @@
 					"port": "5000",
 					"path": [
 						"orders",
-						"5e553f78e434013c6e3d70a5"
+						""
+					]
+				},
+				"description": "Get a single order"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders/_id",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:5000/orders/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders",
+						""
 					]
 				},
 				"description": "Change order status to served"
@@ -60,7 +81,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\"dish\": \"Chicken\"}"
+					"raw": "{\n    \"dish\": \"Macaroni and cheese\",\n    \"name\": \"Kipras\",\n    \"surname\": \"Tarasevicius\",\n    \"number\": \"+37069625082\",\n    \"email\": \"kiprastar@gmail.com\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:5000/orders",
@@ -73,17 +94,46 @@
 						"orders"
 					]
 				},
-				"description": "Add new order"
+				"description": "Create a new order"
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:5000/orders/5e553e0c0dd33f4932e74b9d",
+			"name": "http://localhost:5000/orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dish\": \"Macaroni and cheese\",\n    \"user\": \"11234\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Order a dish with an already registered user"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders/_id",
 			"request": {
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:5000/orders/5e553e0c0dd33f4932e74b9d",
+					"raw": "http://localhost:5000/orders/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -91,31 +141,70 @@
 					"port": "5000",
 					"path": [
 						"orders",
-						"5e553e0c0dd33f4932e74b9d"
+						""
 					]
 				},
-				"description": "Delete a dish"
+				"description": "Delete an order"
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:5000/orders/5e553abe925c976f75306858",
+			"name": "http://localhost:5000/orders",
 			"request": {
-				"method": "GET",
-				"header": [],
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"served\": false,\n        \"_id\": \"5e56743f744f911195fc0ae4\",\n        \"dishes\": \"Macaroni and cheese\",\n        \"created_at\": \"2020-02-26T13:35:59.095Z\",\n        \"updated_at\": \"2020-02-26T13:35:59.095Z\",\n        \"__v\": 0\n    }"
+				},
 				"url": {
-					"raw": "http://localhost:5000/orders/5e553abe925c976f75306858",
+					"raw": "http://localhost:5000/orders",
 					"protocol": "http",
 					"host": [
 						"localhost"
 					],
 					"port": "5000",
 					"path": [
-						"orders",
-						"5e553abe925c976f75306858"
+						"orders"
 					]
 				},
-				"description": "Get a single order"
+				"description": "Change all order parameters"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:5000/orders",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dish\": \"Macaroni and cheese\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5000/orders",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5000",
+					"path": [
+						"orders"
+					]
+				},
+				"description": "Order without user"
 			},
 			"response": []
 		}
