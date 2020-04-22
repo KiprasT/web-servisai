@@ -6,7 +6,7 @@ A basic CRUD project, that implements a super simple orders platform.
 
 ## Where are the docs?
 
-> https://documenter.getpostman.com/view/8652555/SzKWvy27?version=latest#2a3b1fcc-e45e-404b-a053-2919d64aed1e
+> https://documenter.getpostman.com/view/8652555/SzKWvy27?version=latest
 
 ## How to start
 

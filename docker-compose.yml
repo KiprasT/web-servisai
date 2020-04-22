@@ -19,11 +19,15 @@ services:
     build:
       context: contacts
       dockerfile: Dockerfile
-    ports:
-      - "5001:5000"
     networks:
       - mynetwork
   mongo:
     image: "mongo"
+    networks:
+      - mynetwork
+  mongo-seed:
+    build: ./mongo-seed
+    links:
+      - mongo
     networks:
       - mynetwork

@@ -12,72 +12,71 @@ app.use(bodyParser.json());
 
 app.post("/orders", async (req, res) => {
   try {
-    if (
-      req.body.name != null &&
-      req.body.surname != null &&
-      req.body.number != null &&
-      req.body.email != null
-    ) {
+    if (req.body.user != null) {
       const rp = require("request-promise");
-      var options = {
-        method: "POST",
-        uri: "http://contacts:5000/contacts",
-        json: true, // Automatically parses the JSON string in the response
-        body: {
+      var toSend;
+      if (req.body.user.id == null) {
+        toSend = {
           id: Math.floor(Math.random() * Math.floor(100000)),
-          surname: req.body.surname,
-          name: req.body.name,
-          number: req.body.number,
-          email: req.body.email,
-        },
-      };
+          surname: req.body.user.surname,
+          name: req.body.user.name,
+          number: req.body.user.number,
+          email: req.body.user.email,
+        };
+        var options = {
+          method: "POST",
+          uri: "http://contacts:5000/contacts",
+          json: true, // Automatically parses the JSON string in the response
+          body: toSend,
+        };
 
-      rp(options)
-        .then(async function (data) {
-          try {
-            const order = await new Order({
-              dishes: req.body.dish,
-              user: options.body.id,
-            }).save();
-            if (!order) {
-              res.status(404).send();
-            } else {
-              res.status(201).send(order);
+        rp(options)
+          .then(async function (data) {
+            try {
+              const order = await new Order({
+                dishes: req.body.dish,
+                user: options.body.id,
+              }).save();
+              if (!order) {
+                res.status(404).send();
+              } else {
+                res.status(201).send(order);
+              }
+            } catch (exception) {
+              console.log(exception);
+              res.status(500).send();
             }
-          } catch (exception) {
-            console.log(exception);
-            res.status(500).send();
-          }
-        })
-        .catch(async function (err) {
-          try {
-            const order = await new Order({
-              dishes: req.body.dish,
-            }).save();
-            if (!order) {
-              res.status(404).send();
-            } else {
-              res.status(201).send(order);
+          })
+          .catch(async function (err) {
+            try {
+              const order = await new Order({
+                dishes: req.body.dish,
+              }).save();
+              if (!order) {
+                res.status(404).send();
+              } else {
+                res.status(201).send(order);
+              }
+            } catch (exception) {
+              console.log(exception);
+              res.status(500).send();
             }
-          } catch (exception) {
-            console.log(exception);
-            res.status(500).send();
+          });
+      } else {
+        try {
+          const order = await new Order({
+            dishes: req.body.dish,
+            user: req.body.user.id,
+          }).save();
+          if (!order) {
+            res.status(404).send();
+          } else {
+            res.status(201).send(order);
           }
-        });
-    } else if (req.body.user != null) {
-      try {
-        const order = await new Order({
-          dishes: req.body.dish,
-          user: req.body.user,
-        }).save();
-        if (!order) {
-          res.status(404).send();
-        } else {
-          res.status(201).send(order);
+        } catch (exception) {
+          console.log(exception);
+          res.status(500).send();
         }
-      } catch (exception) {
-        console.log(exception);
-        res.status(500).send();
       }
     } else {
       try {
@@ -129,7 +128,7 @@ app.get("/orders/:id", async (req, res) => {
       res.status(404).send();
     } else {
       //res.status(200).send(order);
-      if (order.user != null) {
+      if (order.user != null && req.body.user == 1) {
         const rp = require("request-promise");
         var options = {
           method: "GET",
@@ -240,5 +239,13 @@ const DB_URI = "mongodb://mongo:27017/ordersApp";
 
 mongoose.connect(DB_URI).then(() => {
   console.log("APP IS RUNNING");
+  try {
+    const order = new Order({
+      dishes: "Cheese sticks",
+      user: 11234,
+    }).save();
+  } catch (exception) {
+    return;
+  }
   app.listen(5000);
 });
