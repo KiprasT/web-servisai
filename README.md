@@ -13,6 +13,7 @@ A basic CRUD project, that implements a super simple orders platform.
 ```shell
 git clone https://github.com/KiprasT/web-servisai
 cd web-servisai
+npm i
 git submodule init
 git submodule update
 ```
