@@ -11,6 +11,12 @@ A basic CRUD project, that implements a super simple orders platform.
 ## How to start
 
 ```shell
+git clone https://github.com/KiprasT/web-servisai
+git submodule init
+git submodule update
+```
+
+```shell
 docker-compose build
 docker-compose up
 ```
