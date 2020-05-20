@@ -43,6 +43,9 @@ Everything a handled by Docker:
 
 ## SOAP
 
+- Endpoint always: `localhost:5000/wsdl`
+- Method always: `POST`
+
 ### Get order:
 
 ```xml
