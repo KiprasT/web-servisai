@@ -40,3 +40,41 @@ Everything a handled by Docker:
 - Get all orders
 - Get a single order
 - Delete order
+
+## SOAP
+
+### Get order:
+
+```xml
+<s11:Envelope xmlns:s11='http://schemas.xmlsoap.org/soap/envelope/'>
+  <s11:Body>
+    <ns1:OrderRequest xmlns:ns1='http://tempuri.org/'>
+      <ns1:_id>5eb3c9e7b46fa9fdc6f5c7e6</ns1:_id>
+    </ns1:OrderRequest>
+  </s11:Body>
+</s11:Envelope>
+```
+
+### Create order:
+
+```xml
+<s11:Envelope xmlns:s11='http://schemas.xmlsoap.org/soap/envelope/'>
+  <s11:Body>
+    <ns1:CreateOrderRequest xmlns:ns1='http://tempuri.org/'>
+      <ns1:dish>Banana Pie</ns1:dish>
+    </ns1:CreateOrderRequest>
+  </s11:Body>
+</s11:Envelope>
+```
+
+### Delete order:
+
+```xml
+<s11:Envelope xmlns:s11='http://schemas.xmlsoap.org/soap/envelope/'>
+    <s11:Body>
+        <ns1:DeleteOrderRequest xmlns:ns1='http://tempuri.org/'>
+            <ns1:_id>5eb3c9e7b46fa9fdc6f5c7e6</ns1:_id>
+        </ns1:DeleteOrderRequest>
+    </s11:Body>
+</s11:Envelope>
+```

@@ -1,5 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+var fs = require("fs");
 
 // create express app
 const app = express();
@@ -236,6 +237,51 @@ app.get("/test", async (req, res) => {
 const mongoose = require("mongoose");
 const Order = require("./models/order.js").Order;
 const DB_URI = "mongodb://mongo:27017/ordersApp";
+const soap = require("soap");
+
+async function getOrder(args) {
+  const order = await Order.findOne(args).exec();
+  console.log(order);
+  return {
+    id: args._id,
+    served: order.served,
+    user: order.user,
+    dishes: order.dishes,
+  };
+}
+
+async function createOrder(args) {
+  const order = await new Order({
+    dishes: args.dish,
+  }).save();
+  console.log(order);
+  return {
+    id: order._id.toString(),
+    served: order.served,
+    user: order.user,
+    dishes: order.dishes,
+  };
+}
+
+async function deleteOrder(args) {
+  console.log(args);
+  const order = await Order.findByIdAndDelete(args._id).exec();
+  return;
+}
+
+// the service
+var serviceObject = {
+  OrderService: {
+    OrderServiceSoapPort: {
+      Order: getOrder,
+      CreateOrder: createOrder,
+      DeleteOrder: deleteOrder,
+    },
+  },
+};
+
+// load the WSDL file
+var xml = fs.readFileSync("service.wsdl", "utf8");
 
 mongoose.connect(DB_URI).then(() => {
   console.log("APP IS RUNNING");
@@ -248,4 +294,12 @@ mongoose.connect(DB_URI).then(() => {
     return;
   }
   app.listen(5000);
+  var wsdl_path = "/wsdl";
+  soap.listen(app, wsdl_path, serviceObject, xml);
+  console.log(
+    "Check http://localhost:" +
+      5000 +
+      wsdl_path +
+      "?wsdl to see if the service is working"
+  );
 });
