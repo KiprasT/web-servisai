@@ -58,6 +58,17 @@ Everything a handled by Docker:
 </s11:Envelope>
 ```
 
+### Get all orders:
+
+```xml
+<s11:Envelope xmlns:s11='http://schemas.xmlsoap.org/soap/envelope/'>
+  <s11:Body>
+    <ns1:OrdersRequest xmlns:ns1='http://tempuri.org/'>
+    </ns1:OrdersRequest>
+  </s11:Body>
+</s11:Envelope>
+```
+
 ### Create order:
 
 ```xml

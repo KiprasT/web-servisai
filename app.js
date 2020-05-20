@@ -250,6 +250,21 @@ async function getOrder(args) {
   };
 }
 
+async function getOrders() {
+  const order = await Order.find().exec();
+  console.log(order);
+  var returnArr = [];
+  order.forEach((element) => {
+    returnArr.push({
+      id: element._id.toString(),
+      served: element.served,
+      user: element.user,
+      dishes: element.dishes,
+    });
+  });
+  return returnArr;
+}
+
 async function createOrder(args) {
   const order = await new Order({
     dishes: args.dish,
@@ -274,6 +289,7 @@ var serviceObject = {
   OrderService: {
     OrderServiceSoapPort: {
       Order: getOrder,
+      Orders: getOrders,
       CreateOrder: createOrder,
       DeleteOrder: deleteOrder,
     },
